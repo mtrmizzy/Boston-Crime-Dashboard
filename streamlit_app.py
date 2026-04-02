@@ -1,24 +1,29 @@
 import streamlit as st
+import pandas as pd
 
+# --- Page Config ---
+st.set_page_config(page_title="Boston Crime Dashboard", layout="wide")
+
+# --- Title ---
 st.title("Boston Crime Dashboard")
-st.write(
-    "Let's start building! For help and inspiration, head over to [docs.streamlit.io](https://docs.streamlit.io/)."
-)
-
+st.markdown("Analyze crime trends across Boston (2017–2022) with historical context.")
 
 # --- Sidebar Controls ---
-st.sidebar.title("🔧 Dashboard Controls")
+st.sidebar.header("🔧 Dashboard Controls")
 
-    # This will be the code to split the data in pre-covid and post-covid sections
-# data_source = st.sidebar.radio(
-#     "Select Data Type:",
-#     ["Comments", "Posts"],
-#     index=0
-# )
+# Time period filter
+time_period = st.sidebar.radio(
+    "Select Time Period:",
+    ["All", "Pre-COVID (2017–2019)", "Post-COVID (2020–2022)"]
+)
 
+# District filter
+district = st.sidebar.selectbox(
+    "Select District:",
+    ["All"]  # placeholder until your real data comes in
+)
 
-    # This will be the code to show data on a per district basis
-# selected_subreddit = st.sidebar.selectbox(
-#     "Filter by Subreddit:",
-#     ["All", "r/gaming", "r/news", "r/Showerthoughts"]
-# )
+# --- Placeholder for Data ---
+st.subheader("📊 Dashboard Preview")
+
+st.info("Waiting for cleaned dataset... visualizations will appear here.")
