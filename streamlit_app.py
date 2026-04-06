@@ -135,14 +135,23 @@ with tab1:
 # --- Bar Plots ---
 with tab2:
     st.subheader('Crime Count by District')
-    district_counts = filtered_df['DISTRICT'].value_counts()
+    
+    district_counts = (
+        filtered_df['DISTRICT']
+        .value_counts()
+        .sort_values(ascending=False)
+    )
     
     fig = px.bar(
         x=district_counts.index,
         y=district_counts.values,
         labels={'x': 'District', 'y': 'Crime Count'},
-        rotation=45,
         title="Crime Count by District"
+    )
+
+    # Rotate x-axis labels properly
+    fig.update_layout(
+        xaxis_tickangle=-45
     )
     
     st.plotly_chart(fig, use_container_width=True)
