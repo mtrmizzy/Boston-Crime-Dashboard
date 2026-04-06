@@ -97,29 +97,29 @@ def get_color(grade):
     }
     return color_map.get(grade, 'gray')  # fallback if something unexpected appears
 
-# --- Redlining Map Function ---
-def create_redlining_map(data):
-    mean_lat = data['Lat'].mean()
-    mean_long = data['Long'].mean()
+# # --- Redlining Map Function ---
+# def create_redlining_map(data):
+#     mean_lat = data['Lat'].mean()
+#     mean_long = data['Long'].mean()
 
-    BostonMap = folium.Map(location=[mean_lat, mean_long], zoom_start=11)
+#     BostonMap = folium.Map(location=[mean_lat, mean_long], zoom_start=11)
 
-    folium.GeoJson(
-        "https://github.com/mtrmizzy/Boston-Crime-Dashboard/blob/main/boston_redlining.json",
-        name="Redlining Zones",
-        style_function=lambda feature: {
-            'fillColor': get_color(feature['properties']['grade']),
-            'color': 'black',
-            'weight': 1,
-            'fillOpacity': 0.3
-        },
-        tooltip=folium.GeoJsonTooltip(
-            fields=['grade'],
-            aliases=['HOLC Grade:']
-        )
-    ).add_to(BostonMap)
+#     folium.GeoJson(
+#         "boston_redlining.json",
+#         name="Redlining Zones",
+#         style_function=lambda feature: {
+#             'fillColor': get_color(feature['properties']['grade']),
+#             'color': 'black',
+#             'weight': 1,
+#             'fillOpacity': 0.3
+#         },
+#         tooltip=folium.GeoJsonTooltip(
+#             fields=['grade'],
+#             aliases=['HOLC Grade:']
+#         )
+#     ).add_to(BostonMap)
 
-    return BostonMap
+#     return BostonMap
     
 # ---Display Maps ---
 with tab1:
@@ -160,15 +160,15 @@ with tab2:
     **Insight:** Certain districts consistently report higher crime levels.
     """)
 
-# --- Redlining Map Overlay Tab ---
-with tab3:
-    st.subheader("Redlining & Crime Overlay")
+# # --- Redlining Map Overlay Tab ---
+# with tab3:
+#     st.subheader("Redlining & Crime Overlay")
 
-    red_map = create_redlining_map(filtered_df)
-    st_folium(red_map, width=1000, height=600)
+#     red_map = create_redlining_map(filtered_df)
+#     st_folium(red_map, width=1000, height=600)
 
-    st.markdown("""
-    **Insight:** Areas historically graded lower (redlined) show higher modern crime density.
+#     st.markdown("""
+#     **Insight:** Areas historically graded lower (redlined) show higher modern crime density.
 
-    ⚠️ This reflects long-term structural inequality, not direct causation.
-    """)
+#     ⚠️ This reflects long-term structural inequality, not direct causation.
+#     """)
