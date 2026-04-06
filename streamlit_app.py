@@ -1,4 +1,3 @@
-# python -m pip install streamlit-folium
 import streamlit as st
 import pandas as pd
 from folium.plugins import HeatMap
@@ -29,12 +28,6 @@ time_period = st.sidebar.selectbox(
     "Select Time Period",
     ["All", "Pre-COVID (2017–2019)", "Post-COVID (2020–2022)"]
 )
-
-# districts = st.sidebar.multiselect(
-#     "Select District(s)",
-#     options=sorted(df["DISTRICT"].dropna().unique()),
-#     default=sorted(df["DISTRICT"].dropna().unique())
-# )
 
 # --- Apply Filters ---
 filtered_df = df.copy()
