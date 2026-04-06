@@ -16,7 +16,8 @@ st.markdown("Exploring crime patterns across Boston before and after COVID, with
 # --- Load Data ---
 @st.cache_data
 def load_data():
-    df = pd.read_csv("https://drive.google.com/file/d/1QvcPHwJxNmlA6sHBEyqlgzE5SmgjVVkU/view?usp=drive_link")
+    url = "https://drive.google.com/uc?export=download&id=1QvcPHwJxNmlA6sHBEyqlgzE5SmgjVVkU"
+    df = pd.read_csv(url)
     return df
 
 df = load_data()
