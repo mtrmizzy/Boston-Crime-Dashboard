@@ -47,6 +47,9 @@ tab1, tab2, tab3 = st.tabs([
     "🏙️ Redlining Analysis"
 ])
 
+st.write(os.getcwd())
+st.write(os.listdir())
+
 # --- Map Function ---
 def create_map(data):
     mean_lat = data['Lat'].mean()
