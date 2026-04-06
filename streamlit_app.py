@@ -105,7 +105,7 @@ def get_color(grade):
 # --- Redlining Map Function ---
 def create_redlining_map(data):
     folium.GeoJson(
-        "https://drive.google.com/file/d/1Uk3m5_fgXTdYhlcosXhzfkcEotHm4iSM/view?usp=drive_link",
+        "boston_redlining.json",
         name="Redlining Zones",
         style_function=lambda feature: {
             'fillColor': get_color(feature['properties']['grade']),
