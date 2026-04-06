@@ -1,4 +1,4 @@
-pip install streamlit-folium
+# pip install streamlit-folium
 import streamlit as st
 import pandas as pd
 from folium.plugins import HeatMap
@@ -98,10 +98,10 @@ def get_color(grade):
 
 # --- Redlining Map Function ---
 def create_redlining_map(data):
-    mean_lat = data['Lat'].mean()
-    mean_long = data['Long'].mean()
+    # mean_lat = data['Lat'].mean()
+    # mean_long = data['Long'].mean()
 
-    BostonMap = folium.Map(location=[mean_lat, mean_long], zoom_start=11)
+    BostonMap = folium.Map(location=[42.36, -71.06], zoom_start=11)
 
     folium.GeoJson(
         "boston_redlining.json",
