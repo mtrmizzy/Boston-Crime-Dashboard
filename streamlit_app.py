@@ -109,40 +109,8 @@ def create_redlining_map(data):
     mean_lat = data['Lat'].mean()
     mean_long = data['Long'].mean()
 
-    BostonMap = folium.Map(location=[mean_lat, mean_long], zoom_start=12)
+    BostonMap = folium.Map(location=[mean_lat, mean_long], zoom_start=11)
 
-    heat_data = [
-        [row['Lat'], row['Long'], 1]  # weight = 1 (or use severity if available)
-        for _, row in data.iterrows()
-    ]
-
-    HeatMap(heat_data,
-        radius=8,        # smaller radius = more detail
-        blur=5,          # less smoothing
-        max_zoom=13
-    ).add_to(BostonMap)
-
-    # District Centers
-    district_locations = data.groupby('DISTRICT')[['Lat', 'Long']].mean().reset_index()
-
-    # District Counts
-    district_counts = data['DISTRICT'].value_counts().reset_index()
-    district_counts.columns = ['DISTRICT', 'count']
-
-    # Merge the two District data
-    district_data = district_locations.merge(district_counts, on='DISTRICT')
-
-    # Plot Visual
-    for _, row in district_data.iterrows():
-        folium.CircleMarker(
-            location=[row['Lat'], row['Long']],
-            radius=row['count'] / 500,  # scale size
-            color='blue',
-            fill=True,
-            fill_opacity=0.6,
-            tooltip=f"District {row['DISTRICT']} | Crimes: {row['count']}"
-        ).add_to(BostonMap)
-    
     folium.GeoJson(
         "boston_redlining.json",
         name="Redlining Zones",
