@@ -41,43 +41,55 @@ if district != "All":
 with tab1:
     st.subheader("Crime Map")
 
-    map_object = create_map(filtered_df)  # your existing folium function
+    map_object = create_map(df)  # your existing folium function
     st_folium(map_object, width=700)
 
 def create_map(data):
     mean_lat = data['Lat'].mean()
     mean_long = data['Long'].mean()
 
-    m = folium.Map(location=[mean_lat, mean_long], zoom_start=12)
+    BostonMap = folium.Map(location=[mean_lat, mean_long], zoom_start=12)
 
-    heat_data = [[row['Lat'], row['Long']] for _, row in data.iterrows()]
+    heat_data = [
+        [row['Lat'], row['Long'], 1]  # weight = 1 (or use severity if available)
+        for _, row in data.iterrows()
+    ]
 
-    HeatMap(heat_data, radius=8, blur=5).add_to(m)
+    HeatMap(heat_data,
+        radius=8,        # smaller radius = more detail
+        blur=5,          # less smoothing
+        max_zoom=13
+    ).add_to(BostonMap)
 
-    return m
+    return BostonMap
 
 # --- Bar Plots ---
-fig = px.bar(
-    x=district_counts.index,
-    y=district_counts.values,
-    labels={'x': 'District', 'y': 'Crime Count'},
-    title="Crime Count by District"
-)
+with tab2:
+    st.subheader('Crime Count by District')
+    district_counts = filtered_df['DISTRICT'].value_counts()
+    
+    fig = px.bar(
+        x=district_counts.index,
+        y=district_counts.values,
+        labels={'x': 'District', 'y': 'Crime Count'},
+        rotation=45,
+        title="Crime Count by District"
+    )
+    
+    st.plotly_chart(fig, use_container_width=True)
 
-st.plotly_chart(fig, use_container_width=True)
+# # --- Redlining Tab ---
+# with tab3:
+#     st.subheader("Crime vs Historical Redlining")
 
-# --- Redlining Tab ---
-with tab3:
-    st.subheader("Crime vs Historical Redlining")
+#     redlining_map = create_redlining_map(filtered_df)
+#     st_folium(redlining_map, width=700)
 
-    redlining_map = create_redlining_map(filtered_df)
-    st_folium(redlining_map, width=700)
-
-    st.markdown("""
-    **Insight:**
-    We observe overlap between historically redlined areas and higher crime density.
-    This may reflect long-term structural inequalities rather than direct causation.
-    """)
+#     st.markdown("""
+#     **Insight:**
+#     We observe overlap between historically redlined areas and higher crime density.
+#     This may reflect long-term structural inequalities rather than direct causation.
+#     """)
 
 
 # # Time period filter
