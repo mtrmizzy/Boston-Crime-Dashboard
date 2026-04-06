@@ -105,8 +105,8 @@ def create_redlining_map(data):
 
     BostonMap = folium.Map(location=[mean_lat, mean_long], zoom_start=12)
     
-    with open("boston_redlining.json") as f:
-        geojson_data = json.load(f)
+    BASE_DIR = os.path.dirname(__file__)
+    geojson_path = os.path.join(BASE_DIR, "boston_redlining.json")
     
     folium.GeoJson(
         geojson_path,
