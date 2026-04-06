@@ -106,8 +106,15 @@ def create_redlining_map(data):
 
     BostonMap = folium.Map(location=[mean_lat, mean_long], zoom_start=12)
 
-    url = "https://github.com/mtrmizzy/Boston-Crime-Dashboard/blob/main/boston_redlining.json"
-    geojson_data = requests.get(url).json()
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    geojson_path = os.path.join(BASE_DIR, "boston_redlining.json")
+
+    # 🔍 Debug (leave this in temporarily)
+    st.write("Looking for file at:", geojson_path)
+    st.write("File exists:", os.path.exists(geojson_path))
+
+    with open(geojson_path, "r") as f:
+        geojson_data = json.load(f)
 
     folium.GeoJson(
         geojson_data,  # ✅ pass data instead of file path
