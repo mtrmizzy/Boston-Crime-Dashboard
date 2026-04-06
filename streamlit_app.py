@@ -47,9 +47,6 @@ tab1, tab2, tab3 = st.tabs([
     "🏙️ Redlining Analysis"
 ])
 
-st.write(os.getcwd())
-st.write(os.listdir())
-
 # --- Map Function ---
 def create_map(data):
     mean_lat = data['Lat'].mean()
@@ -107,6 +104,9 @@ def create_redlining_map(data):
     mean_long = data['Long'].mean()
 
     BostonMap = folium.Map(location=[mean_lat, mean_long], zoom_start=12)
+
+    st.write(os.getcwd())
+    st.write(os.listdir())
     
     BASE_DIR = os.path.dirname(__file__)
     geojson_path = os.path.join(BASE_DIR, "boston_redlining.json")
