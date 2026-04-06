@@ -106,7 +106,7 @@ def create_redlining_map(data):
 
     BostonMap = folium.Map(location=[mean_lat, mean_long], zoom_start=12)
 
-    url = "https://drive.google.com/file/d/1Uk3m5_fgXTdYhlcosXhzfkcEotHm4iSM/view?usp=drive_link"
+    url = "https://github.com/mtrmizzy/Boston-Crime-Dashboard/blob/main/boston_redlining.json"
     geojson_data = requests.get(url).json()
 
     folium.GeoJson(
