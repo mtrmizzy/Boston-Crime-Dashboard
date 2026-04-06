@@ -110,6 +110,38 @@ def create_redlining_map(data):
     mean_long = data['Long'].mean()
 
     BostonMap = folium.Map(location=[mean_lat, mean_long], zoom_start=12)
+
+    heat_data = [
+        [row['Lat'], row['Long'], 1]  # weight = 1 (or use severity if available)
+        for _, row in data.iterrows()
+    ]
+
+    HeatMap(heat_data,
+        radius=8,        # smaller radius = more detail
+        blur=5,          # less smoothing
+        max_zoom=13
+    ).add_to(BostonMap)
+
+    # District Centers
+    district_locations = data.groupby('DISTRICT')[['Lat', 'Long']].mean().reset_index()
+
+    # District Counts
+    district_counts = data['DISTRICT'].value_counts().reset_index()
+    district_counts.columns = ['DISTRICT', 'count']
+
+    # Merge the two District data
+    district_data = district_locations.merge(district_counts, on='DISTRICT')
+
+    # Plot Visual
+    for _, row in district_data.iterrows():
+        folium.CircleMarker(
+            location=[row['Lat'], row['Long']],
+            radius=row['count'] / 500,  # scale size
+            color='blue',
+            fill=True,
+            fill_opacity=0.6,
+            tooltip=f"District {row['DISTRICT']} | Crimes: {row['count']}"
+        ).add_to(BostonMap)
     
     folium.GeoJson(
         "boston_redlining.json",
@@ -179,35 +211,3 @@ with tab3:
 
     ⚠️ This reflects long-term structural inequality, not direct causation.
     """)
-
-
-# # --- Redlining Tab ---
-# with tab3:
-#     st.subheader("Crime vs Historical Redlining")
-
-#     redlining_map = create_redlining_map(filtered_df)
-#     st_folium(redlining_map, width=700)
-
-#     st.markdown("""
-#     **Insight:**
-#     We observe overlap between historically redlined areas and higher crime density.
-#     This may reflect long-term structural inequalities rather than direct causation.
-#     """)
-
-
-# # Time period filter
-# time_period = st.sidebar.radio(
-#     "Select Time Period:",
-#     ["All", "Pre-COVID (2017–2019)", "Post-COVID (2020–2022)"]
-# )
-
-# # District filter
-# district = st.sidebar.selectbox(
-#     "Select District:",
-#     ["All"]  # placeholder until your real data comes in
-# )
-
-# # --- Placeholder for Data ---
-# st.subheader("📊 Dashboard Preview")
-
-# st.info("Waiting for cleaned dataset... visualizations will appear here.")
