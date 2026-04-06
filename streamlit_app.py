@@ -43,6 +43,8 @@ if time_period == "Pre-COVID (2017–2019)":
     filtered_df = filtered_df[filtered_df["YEAR"] < 2020]
 elif time_period == "Post-COVID (2020–2022)":
     filtered_df = filtered_df[filtered_df["YEAR"] >= 2020]
+else:
+    filtered_df = df
 
 # --- Tab Setup ---
 tab1, tab2, tab3 = st.tabs([
