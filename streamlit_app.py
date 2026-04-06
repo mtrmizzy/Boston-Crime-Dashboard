@@ -5,6 +5,8 @@ from folium.plugins import HeatMap
 import plotly.express as px
 import folium
 from streamlit_folium import st_folium
+import os
+import json
 
 # --- Page Config ---
 st.set_page_config(page_title="Boston Crime Dashboard", layout="wide")
@@ -103,8 +105,8 @@ def create_redlining_map(data):
 
     BostonMap = folium.Map(location=[mean_lat, mean_long], zoom_start=12)
     
-    BASE_DIR = os.path.dirname(__file__)
-    geojson_path = os.path.join(BASE_DIR, "boston_redlining.json")
+    with open("boston_redlining.json") as f:
+        geojson_data = json.load(f)
     
     folium.GeoJson(
         geojson_path,
