@@ -69,6 +69,27 @@ def create_map(data):
         max_zoom=13
     ).add_to(BostonMap)
 
+    # District Centers
+    district_locations = data.groupby('DISTRICT')[['Lat', 'Long']].mean().reset_index()
+
+    # District Counts
+    district_counts = data['DISTRICT'].value_counts().reset_index()
+    district_counts.columns = ['DISTRICT', 'count']
+
+    # Merge the two District data
+    district_data = district_locations.merge(district_counts, on='DISTRICT')
+
+    # Plot Visual
+    for _, row in district_data.iterrows():
+        folium.CircleMarker(
+            location=[row['Lat'], row['Long']],
+            radius=row['count'] / 500,  # scale size
+            color='blue',
+            fill=True,
+            fill_opacity=0.6,
+            tooltip=f"District {row['DISTRICT']} | Crimes: {row['count']}"
+        ).add_to(BostonMap)
+    
     return BostonMap
 
 # --- Get Color Function ---
