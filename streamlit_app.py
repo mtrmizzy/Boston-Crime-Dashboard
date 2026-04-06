@@ -102,9 +102,12 @@ def create_redlining_map(data):
     mean_long = data['Long'].mean()
 
     BostonMap = folium.Map(location=[mean_lat, mean_long], zoom_start=12)
-
+    
+    BASE_DIR = os.path.dirname(__file__)
+    geojson_path = os.path.join(BASE_DIR, "boston_redlining.json")
+    
     folium.GeoJson(
-        "Boston-Crime-Dashboard/boston_redlining.json",
+        geojson_path,
         name="Redlining Zones",
         style_function=lambda feature: {
             'fillColor': get_color(feature['properties']['grade']),
