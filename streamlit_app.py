@@ -7,6 +7,7 @@ import folium
 from streamlit_folium import st_folium
 import os
 import json
+import requests
 
 # --- Page Config ---
 st.set_page_config(page_title="Boston Crime Dashboard", layout="wide")
@@ -105,12 +106,8 @@ def create_redlining_map(data):
 
     BostonMap = folium.Map(location=[mean_lat, mean_long], zoom_start=12)
 
-    BASE_DIR = os.path.dirname(__file__)
-    geojson_path = os.path.join(BASE_DIR, "boston_redlining.json")
-
-    # ✅ Load JSON manually
-    with open(geojson_path, "r") as f:
-        geojson_data = json.load(f)
+    url = "https://drive.google.com/file/d/1Uk3m5_fgXTdYhlcosXhzfkcEotHm4iSM/view?usp=drive_link"
+    geojson_data = requests.get(url).json()
 
     folium.GeoJson(
         geojson_data,  # ✅ pass data instead of file path
